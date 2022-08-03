@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+body{
+    margin: 0;
+    font-weight: bold;
+}
+
+.bg_mauve{
+    background-color: rgb(70, 50, 120)!important ;
+}
+
+.text_jaune{
+    color: rgb(214, 214, 10);
+}
+
+.mat_icon_style{
+    background-color: white!important;
+    border: 0!important;
+}

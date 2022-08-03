@@ -1,0 +1,11 @@
+.disabled_div{
+    pointer-events: none;
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+}
+.disabled_div input{
+    display: none;
+}

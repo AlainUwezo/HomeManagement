@@ -1,0 +1,137 @@
+<div class="row justify-content-around me-2 mb-3 px-lg-5 fs-5 ">  
+    <span class="col">
+        Add home
+    </span>      
+    <span class="col text-end">
+        <button class="border-0 mat_icon_style" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>dialpad</mat-icon>
+                <span>Redial</span>
+            </button>
+            <button mat-menu-item disabled>
+                <mat-icon>voicemail</mat-icon>
+                <span>Check voice mail</span>
+            </button>
+            <button mat-menu-item>
+                <mat-icon>notifications_off</mat-icon>
+                <span>Disable alerts</span>
+            </button>
+        </mat-menu>  
+    </span>    
+</div>   
+
+<div class="pb-3">
+    <form [formGroup]="addHomeForm">
+        <div class="px-lg-5 row justify-content-around">
+
+            <div class="col-sm-5" formGroupName="apparitorGroup">
+                <h4 class="mb-3 text-center">Apparitor</h4>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <mat-form-field appearance="standard"  class="col-md-6">
+                            <mat-label>First name</mat-label>
+                            <input type="text" matInput id="firstName" formControlName="apparitor_firstname" placeholder="" value="" required>   
+                        </mat-form-field>
+                        <mat-form-field appearance="standard"  class="col-md-6">
+                            <mat-label>Last name</mat-label>
+                            <input type="text" matInput id="lastName" formControlName="apparitor_lastname" placeholder="" value="" required>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="standard"  class="col-12 col-md-6">
+                        <mat-label>Enter your email</mat-label>
+                        <input type="email" matInput id="lastName" formControlName="apparitor_email" placeholder="" value="" required>
+                        <mat-icon matSuffix [ngClass]="'text_jaune'">email</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field appearance="standard"  class="col-12 col-md-6">
+                        <mat-label>Phone number</mat-label>
+                        <input type="email" matInput id="lastName" formControlName="apparitor_phone" placeholder="" value="" required>
+                        <mat-icon matSuffix [ngClass]="'text_jaune'">phone</mat-icon>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            
+
+            <div class="col-sm-5" [ngClass]="{'disabled_div' : addHomeForm.get('apparitorGroup')?.invalid}" formGroupName="homeGroup">
+                <h4 class="mb-3 text-center justify-content-around">
+                    Home
+                    <mat-icon *ngIf="addHomeForm.get('apparitorGroup')?.invalid" class="mx-3 align-self-center">lock</mat-icon>
+                </h4>
+                <div class="row">
+                    <mat-form-field appearance="standard"  class="col-12">
+                        <mat-label>Code home</mat-label>
+                        <input type="text" matInput formControlName="code_home" id="code_home" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12">
+                    <mat-form-field appearance="standard"  class="col-12">
+                        <mat-label>Home name</mat-label>
+                        <input type="text" matInput formControlName="home_name" id="home_name" required>
+                    </mat-form-field> 
+                </div>
+            </div>
+ 
+
+
+            <div class="row" class="col-12 col-sm-11" [formGroup]="floorGroup" [ngClass]="{'disabled_div' : addHomeForm.get('homeGroup')?.invalid}">
+                <div class="col-sm-12 pt-5">
+                    <h4 class="mb-3 text-center align-self-center">
+                        Floor
+                        <mat-icon *ngIf="addHomeForm.get('apparitorGroup')?.invalid" class="mx-3">lock</mat-icon>
+                    </h4>
+                    <div class="floor-form text-center"  [formGroup]="floorGroup">
+                        <ng-container formArrayName="floors">
+                            <div class="row">
+                                <ng-container *ngFor="let floorForm of floors.controls; let i=index">
+                                    <div class="col-12 col-md-6">
+                                        <div class="lesson-form-row" [formGroupName]="i">
+                                            <div class="text-center">Niveau {{i+1}}</div>
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-5">
+                                                        <mat-form-field appearance="standard"  class="col-12">
+                                                            <mat-label>Door number</mat-label>
+                                                            <input type="number" class="float-end text-end" matInput formControlName="door_number" id="home_name" required>
+                                                        </mat-form-field> 
+                                                    </div>
+                                                    <div class="col-10 col-md-8 col-lg-5">
+                                                        
+                                                        <mat-form-field appearance="standard"  class="col-12">
+                                                            <mat-label>Door price</mat-label>
+                                                            <input type="number" class="float-end text-end" matInput formControlName="door_price" id="home_name" required>
+                                                            <span class="align-self-center" matPrefix>$&nbsp;</span>
+                                                        </mat-form-field> 
+                                                    </div>
+                                                    <div class="col-2 align-self-center">
+                                                        <mat-icon role="button" class="delete-btn text-danger" (click)="deleteFloor(i)">delete_forever</mat-icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+
+                        <!-- On affiche le button que si le floor sont accessibles -->
+                        <button *ngIf="addHomeForm.valid" class="mat_icon_style" (click)="addFloor()">
+                            <mat-icon role="button">add_circle</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row m-0 p-0 py-4 px-lg-5">
+                <div class="col-12 px-lg-4">
+                    <button [disabled]="addHomeForm.invalid || floorGroup.invalid" class="text-light btn" [ngClass]="'bg_mauve'">Enregistrer</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
